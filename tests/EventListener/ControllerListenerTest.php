@@ -28,7 +28,7 @@ final class ControllerListenerTest extends TestCase
     public function testShouldNotResolveFeatureBecauseFeatureNotExist(): void
     {
         $this->expectException(\UnexpectedValueException::class);
-        $this->expectExceptionMessageIsOrContains('Feature "foo" is defined more than once in TwentytwoLabs\FeatureFlagBundle\Tests\Fixtures\Controller\DefaultController::attributeFooError');
+        $this->expectExceptionMessage('Feature "foo" is defined more than once in TwentytwoLabs\FeatureFlagBundle\Tests\Fixtures\Controller\DefaultController::attributeFooError');
 
         $kernel = $this->createMock(HttpKernelInterface::class);
 
