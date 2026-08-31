@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace TwentytwoLabs\FeatureFlagBundle\Tests\Storage;
 
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Cache\CacheItemInterface;
 use Psr\Cache\CacheItemPoolInterface;
@@ -12,6 +13,7 @@ use TwentytwoLabs\FeatureFlagBundle\Storage\CachedStorage;
 use PHPUnit\Framework\TestCase;
 use TwentytwoLabs\FeatureFlagBundle\Storage\StorageInterface;
 
+#[AllowMockObjectsWithoutExpectations]
 final class CachedStorageTest extends TestCase
 {
     private StorageInterface|MockObject $store;

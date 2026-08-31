@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace TwentytwoLabs\FeatureFlagBundle\Tests\DependencyInjection;
 
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractExtensionConfigurationTestCase;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
 use TwentytwoLabs\FeatureFlagBundle\DependencyInjection\Configuration;
 use TwentytwoLabs\FeatureFlagBundle\DependencyInjection\TwentytwoLabsFeatureFlagExtension;
 
+#[AllowMockObjectsWithoutExpectations]
 final class ConfigurationTest extends AbstractExtensionConfigurationTestCase
 {
     public function testShouldCheckEmptyConfiguration(): void

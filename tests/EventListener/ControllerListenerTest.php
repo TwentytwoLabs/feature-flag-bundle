@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace TwentytwoLabs\FeatureFlagBundle\Tests\EventListener;
 
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use TwentytwoLabs\FeatureFlagBundle\Tests\Fixtures\Controller\FooController;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\ParameterBag;
@@ -13,6 +14,7 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 use TwentytwoLabs\FeatureFlagBundle\EventListener\ControllerListener;
 use TwentytwoLabs\FeatureFlagBundle\Tests\Fixtures\Controller\DefaultController;
 
+#[AllowMockObjectsWithoutExpectations]
 final class ControllerListenerTest extends TestCase
 {
     public function testShouldValidateEvent(): void
@@ -26,16 +28,12 @@ final class ControllerListenerTest extends TestCase
     public function testShouldNotResolveFeatureBecauseFeatureNotExist(): void
     {
         $this->expectException(\UnexpectedValueException::class);
-        $this->expectExceptionMessage('Feature "foo" is defined more than once in TwentytwoLabs\FeatureFlagBundle\Tests\Fixtures\Controller\DefaultController::attributeFooError');
-
-        $attributes = $this->createMock(ParameterBag::class);
-        $attributes->expects($this->never())->method('set');
-        $attributes->expects($this->never())->method('get');
+        $this->expectExceptionMessageIsOrContains('Feature "foo" is defined more than once in TwentytwoLabs\FeatureFlagBundle\Tests\Fixtures\Controller\DefaultController::attributeFooError');
 
         $kernel = $this->createMock(HttpKernelInterface::class);
 
-        $request = $this->createMock(Request::class);
-        $request->attributes = $attributes;
+        $request = new Request();
+        $request->attributes = new ParameterBag();
 
         $listener = $this->getListener();
         $listener->onKernelController(
@@ -46,33 +44,16 @@ final class ControllerListenerTest extends TestCase
                 null
             )
         );
+
+        $this->assertSame([], $request->attributes->all());
     }
 
     public function testShouldResolveFeatureWithClass(): void
     {
-        $attributes = $this->createMock(ParameterBag::class);
-        $attributes
-            ->expects($this->once())
-            ->method('set')
-            ->with(
-                '_features',
-                [
-                    'foo' => ['feature' => 'foo', 'enabled' => true],
-                    'bar' => ['feature' => 'bar', 'enabled' => false],
-                ]
-            )
-        ;
-        $attributes
-            ->expects($this->once())
-            ->method('get')
-            ->with('_features', [])
-            ->willReturn(['bar' => ['feature' => 'bar', 'enabled' => true]])
-        ;
-
         $kernel = $this->createMock(HttpKernelInterface::class);
 
-        $request = $this->createMock(Request::class);
-        $request->attributes = $attributes;
+        $request = new Request();
+        $request->attributes = new ParameterBag(['_features' => ['bar' => ['feature' => 'bar', 'enabled' => true]]]);
 
         $listener = $this->getListener();
         $listener->onKernelController(
@@ -83,30 +64,24 @@ final class ControllerListenerTest extends TestCase
                 null
             )
         );
+
+        $this->assertSame(
+            [
+                '_features' => [
+                    'bar' => ['feature' => 'bar', 'enabled' => false],
+                    'foo' => ['feature' => 'foo', 'enabled' => true],
+                ],
+            ],
+            $request->attributes->all()
+        );
     }
 
     public function testShouldResolveFeatureWithMethod(): void
     {
-        $attributes = $this->createMock(ParameterBag::class);
-        $attributes
-            ->expects($this->once())
-            ->method('set')
-            ->with(
-                '_features',
-                ['foo' => ['feature' => 'foo', 'enabled' => true], 'bar' => ['feature' => 'bar', 'enabled' => true]]
-            )
-        ;
-        $attributes
-            ->expects($this->once())
-            ->method('get')
-            ->with('_features', [])
-            ->willReturn(['bar' => ['feature' => 'bar', 'enabled' => true]])
-        ;
-
         $kernel = $this->createMock(HttpKernelInterface::class);
 
-        $request = $this->createMock(Request::class);
-        $request->attributes = $attributes;
+        $request = new Request();
+        $request->attributes = new ParameterBag();
 
         $listener = $this->getListener();
         $listener->onKernelController(
@@ -116,6 +91,15 @@ final class ControllerListenerTest extends TestCase
                 $request,
                 null
             )
+        );
+
+        $this->assertSame(
+            [
+                '_features' => [
+                    'foo' => ['feature' => 'foo', 'enabled' => true],
+                ],
+            ],
+            $request->attributes->all()
         );
     }
 

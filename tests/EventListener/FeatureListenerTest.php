@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace TwentytwoLabs\FeatureFlagBundle\Tests\EventListener;
 
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\ParameterBag;
@@ -15,6 +16,7 @@ use TwentytwoLabs\FeatureFlagBundle\EventListener\FeatureListener;
 use TwentytwoLabs\FeatureFlagBundle\Manager\ChainedFeatureManager;
 use TwentytwoLabs\FeatureFlagBundle\Tests\Fixtures\Controller\FooController;
 
+#[AllowMockObjectsWithoutExpectations]
 final class FeatureListenerTest extends TestCase
 {
     private ChainedFeatureManager|MockObject $manager;
@@ -38,7 +40,7 @@ final class FeatureListenerTest extends TestCase
         $attributes = $this->createMock(ParameterBag::class);
         $attributes->expects($this->once())->method('get')->with('_features', [])->willReturn([]);
 
-        $request = $this->createMock(Request::class);
+        $request = new Request();
         $request->attributes = $attributes;
 
         $controller = $this->getListener();
@@ -61,7 +63,7 @@ final class FeatureListenerTest extends TestCase
             ->willReturn([['feature' => 'bar', 'enabled' => true]])
         ;
 
-        $request = $this->createMock(Request::class);
+        $request = new Request();
         $request->attributes = $attributes;
 
         $controller = $this->getListener();
@@ -76,17 +78,19 @@ final class FeatureListenerTest extends TestCase
             ->method('isEnabled')
             ->willReturnOnConsecutiveCalls(true, false)
             ->willReturnCallback(function (string $name) use ($matcher) {
-                match ($matcher->numberOfInvocations()) {
-                    1 => $this->assertSame('bar', $name),
-                    2 => $this->assertSame('baz', $name),
-                    default => throw new \Exception(sprintf('Method "isEnabled" should call %d times', 2)),
-                };
+                if (1 === $matcher->numberOfInvocations()) {
+                    $this->assertSame('bar', $name);
 
-                return match ($matcher->numberOfInvocations()) {
-                    1 => true,
-                    2 => false,
-                    default => throw new \Exception(sprintf('Method "isEnabled" should call %d times', 2)),
-                };
+                    return true;
+                }
+
+                if (2 === $matcher->numberOfInvocations()) {
+                    $this->assertSame('baz', $name);
+
+                    return false;
+                }
+
+                throw new \Exception(sprintf('Method "isEnabled" should call %d times', 2));
             })
         ;
 
@@ -100,7 +104,7 @@ final class FeatureListenerTest extends TestCase
             ->willReturn([['feature' => 'bar'], ['feature' => 'baz', 'enabled' => false]])
         ;
 
-        $request = $this->createMock(Request::class);
+        $request = new Request();
         $request->attributes = $attributes;
 
         $controller = $this->getListener();

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace TwentytwoLabs\FeatureFlagBundle\Tests\Checker;
 
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
@@ -17,6 +18,7 @@ use Symfony\Component\Security\Core\Role\RoleHierarchyInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use TwentytwoLabs\FeatureFlagBundle\Checker\ExpressionLanguageChecker;
 
+#[AllowMockObjectsWithoutExpectations]
 final class ExpressionLanguageCheckerTest extends TestCase
 {
     private ExpressionLanguage|MockObject $expressionLanguage;

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace TwentytwoLabs\FeatureFlagBundle\Tests\Twig\Extension;
 
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -11,6 +12,7 @@ use TwentytwoLabs\FeatureFlagBundle\Manager\ChainedFeatureManager;
 use TwentytwoLabs\FeatureFlagBundle\Twig\Extension\FeatureFlagExtension;
 use Twig\TwigFunction;
 
+#[AllowMockObjectsWithoutExpectations]
 final class FeatureFlagExtensionTest extends TestCase
 {
     private ChainedFeatureManager|MockObject $manager;
@@ -32,7 +34,6 @@ final class FeatureFlagExtensionTest extends TestCase
         $extension = $this->getExtension();
         $functions = $extension->getFunctions();
 
-        $this->assertIsArray($functions);
         $this->assertCount(2, $functions);
         $this->assertInstanceOf(TwigFunction::class, $functions[0]);
         $this->assertSame('isFeatureEnabled', $functions[0]->getName());

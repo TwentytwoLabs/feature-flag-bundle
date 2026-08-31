@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace TwentytwoLabs\FeatureFlagBundle\Tests\Factory;
 
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\TestCase;
 use TwentytwoLabs\FeatureFlagBundle\Exception\ConfigurationException;
 use TwentytwoLabs\FeatureFlagBundle\Factory\ArrayStorageFactory;
 use TwentytwoLabs\FeatureFlagBundle\Model\FeatureInterface;
 use TwentytwoLabs\FeatureFlagBundle\Storage\ArrayStorage;
 
+#[AllowMockObjectsWithoutExpectations]
 final class ArrayStorageFactoryTest extends TestCase
 {
     public function testShouldThrowExceptionBecauseFeaturesIsNotDefined(): void
@@ -53,7 +55,6 @@ final class ArrayStorageFactoryTest extends TestCase
         $storage = $factory->createStorage('foo', $options);
         $this->assertInstanceOf(ArrayStorage::class, $storage);
         $features = $storage->all();
-        $this->assertIsArray($features);
         $this->assertCount(5, $features);
 
         $this->assertArrayHasKey('my_feature_1', $features);

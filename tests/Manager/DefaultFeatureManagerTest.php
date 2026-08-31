@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace TwentytwoLabs\FeatureFlagBundle\Tests\Manager;
 
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\MockObject\MockObject;
 use TwentytwoLabs\FeatureFlagBundle\Checker\ExpressionLanguageChecker;
 use TwentytwoLabs\FeatureFlagBundle\Manager\DefaultFeatureManager;
@@ -11,6 +12,7 @@ use PHPUnit\Framework\TestCase;
 use TwentytwoLabs\FeatureFlagBundle\Model\FeatureInterface;
 use TwentytwoLabs\FeatureFlagBundle\Storage\StorageInterface;
 
+#[AllowMockObjectsWithoutExpectations]
 final class DefaultFeatureManagerTest extends TestCase
 {
     private StorageInterface|MockObject $storage;

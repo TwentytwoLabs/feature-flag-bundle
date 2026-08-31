@@ -28,7 +28,7 @@ final class FeatureCollector extends DataCollector
         $this->data = [];
     }
 
-    public function collect(Request $request, Response $response, \Throwable $exception = null): void
+    public function collect(Request $request, Response $response, ?\Throwable $exception = null): void
     {
         $totalFeatureCount = 0;
         $activeFeatureCount = 0;

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace TwentytwoLabs\FeatureFlagBundle\Tests\Command;
 
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\Exception;
 use Symfony\Component\Console\Command\Command;
@@ -14,6 +15,7 @@ use TwentytwoLabs\FeatureFlagBundle\Manager\ChainedFeatureManager;
 use TwentytwoLabs\FeatureFlagBundle\Manager\FeatureManagerInterface;
 use TwentytwoLabs\FeatureFlagBundle\Model\Feature;
 
+#[AllowMockObjectsWithoutExpectations]
 final class ListFeatureCommandTest extends TestCase
 {
     /**

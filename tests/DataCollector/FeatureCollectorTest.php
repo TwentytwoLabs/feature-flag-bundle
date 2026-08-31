@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace TwentytwoLabs\FeatureFlagBundle\Tests\DataCollector;
 
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,6 +14,7 @@ use TwentytwoLabs\FeatureFlagBundle\Manager\ChainedFeatureManager;
 use TwentytwoLabs\FeatureFlagBundle\Manager\FeatureManagerInterface;
 use TwentytwoLabs\FeatureFlagBundle\Model\FeatureInterface;
 
+#[AllowMockObjectsWithoutExpectations]
 final class FeatureCollectorTest extends TestCase
 {
     private FeatureManagerInterface|MockObject $emptyManager;
@@ -65,17 +67,19 @@ final class FeatureCollectorTest extends TestCase
             ->expects($matcher)
             ->method('isEnabled')
             ->willReturnCallback(function (string $key) use ($matcher) {
-                match ($matcher->numberOfInvocations()) {
-                    1 => $this->assertEquals('feature-1', $key),
-                    2 => $this->assertEquals('feature-2', $key),
-                    default => throw new \Exception(sprintf('Method "isEnabled" should call %d times', 2)),
-                };
+                if (1 === $matcher->numberOfInvocations()) {
+                    $this->assertEquals('feature-1', $key);
 
-                return match ($matcher->numberOfInvocations()) {
-                    1 => false,
-                    2 => true,
-                    default => throw new \Exception(sprintf('Method "isEnabled" should call %d times', 2)),
-                };
+                    return false;
+                }
+
+                if (2 === $matcher->numberOfInvocations()) {
+                    $this->assertEquals('feature-2', $key);
+
+                    return true;
+                }
+
+                throw new \Exception(sprintf('Method "isEnabled" should call %d times', 2));
             })
         ;
         $this->fooManager->expects($this->once())->method('all')->willReturn([$feature1, $feature2]);

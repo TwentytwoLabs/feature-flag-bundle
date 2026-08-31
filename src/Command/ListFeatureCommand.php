@@ -17,7 +17,7 @@ final class ListFeatureCommand extends Command
 {
     private ChainedFeatureManager $manager;
 
-    public function __construct(ChainedFeatureManager $manager, string $name = null)
+    public function __construct(ChainedFeatureManager $manager, ?string $name = null)
     {
         parent::__construct($name);
         $this->manager = $manager;

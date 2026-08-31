@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace TwentytwoLabs\FeatureFlagBundle\Tests\DependencyInjection;
 
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractExtensionTestCase;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use Symfony\Component\DependencyInjection\Reference;
 use TwentytwoLabs\FeatureFlagBundle\Command\ListFeatureCommand;
 use TwentytwoLabs\FeatureFlagBundle\DataCollector\FeatureCollector;
@@ -12,6 +13,7 @@ use TwentytwoLabs\FeatureFlagBundle\DependencyInjection\TwentytwoLabsFeatureFlag
 use TwentytwoLabs\FeatureFlagBundle\Storage\CachedStorage;
 use TwentytwoLabs\FeatureFlagBundle\Twig\Extension\FeatureFlagExtension;
 
+#[AllowMockObjectsWithoutExpectations]
 final class TwentytwoLabsFeatureFlagExtensionTest extends AbstractExtensionTestCase
 {
     protected function setUp(): void
