@@ -9,7 +9,7 @@ use TwentytwoLabs\FeatureFlagBundle\Model\FeatureInterface;
 
 final class ArrayStorage implements StorageInterface
 {
-    /** @var FeatureInterface[]  */
+    /** @var FeatureInterface[] */
     private array $features;
 
     /**

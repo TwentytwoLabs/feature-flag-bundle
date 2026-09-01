@@ -33,14 +33,7 @@ class ControllerListener implements EventSubscriberInterface
         $features = [];
         foreach ($this->resolveFeatures($class, $method) as $key => $feature) {
             if (isset($features[$key])) {
-                throw new \UnexpectedValueException(
-                    sprintf(
-                        'Feature "%s" is defined more than once in %s::%s',
-                        $key,
-                        $className,
-                        $controller[1]
-                    )
-                );
+                throw new \UnexpectedValueException(sprintf('Feature "%s" is defined more than once in %s::%s', $key, $className, $controller[1]));
             }
 
             $features[$key] = $feature;
@@ -52,7 +45,6 @@ class ControllerListener implements EventSubscriberInterface
 
     /**
      * @param \ReflectionClass<object> $class
-     * @param \ReflectionMethod $method
      *
      * @return iterable<string, array<string, mixed>>
      */

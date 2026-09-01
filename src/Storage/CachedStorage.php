@@ -9,7 +9,7 @@ final class CachedStorage implements StorageInterface
 {
     private StorageInterface $store;
     private CacheItemPoolInterface $cache;
-    /** @var array<string, mixed>  */
+    /** @var array<string, mixed> */
     private array $options;
 
     /**

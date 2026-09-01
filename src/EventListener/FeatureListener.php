@@ -7,7 +7,6 @@ namespace TwentytwoLabs\FeatureFlagBundle\EventListener;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
 use Symfony\Component\HttpKernel\Exception\GoneHttpException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\KernelEvents;
 use TwentytwoLabs\FeatureFlagBundle\Manager\ChainedFeatureManager;
 

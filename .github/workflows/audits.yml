@@ -1,5 +1,5 @@
 name: Audits
-on: [push, pull_request]
+on: [ push, pull_request ]
 
 jobs:
    audits:
@@ -9,10 +9,10 @@ jobs:
          fail-fast: false
          matrix:
             include:
-               - name: PHPSTAN
-                 command: composer phpstan
-               - name: PHPCS
-                 command: composer cs-fixer
+               -  name: PHPSTAN
+                  command: composer phpstan
+               -  name: PHPCS
+                  command: composer cs-fixer
       steps:
          -  name: Checkout
             uses: actions/checkout@v4

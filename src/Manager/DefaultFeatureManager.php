@@ -16,7 +16,7 @@ final class DefaultFeatureManager implements FeatureManagerInterface
     public function __construct(
         string $name,
         StorageInterface $storage,
-        ExpressionLanguageChecker $expressionLanguageChecker
+        ExpressionLanguageChecker $expressionLanguageChecker,
     ) {
         $this->name = $name;
         $this->storage = $storage;

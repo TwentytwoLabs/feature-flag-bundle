@@ -9,9 +9,9 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
+use TwentytwoLabs\FeatureFlagBundle\Manager\DefaultFeatureManager;
 use TwentytwoLabs\FeatureFlagBundle\Storage\CachedStorage;
 use TwentytwoLabs\FeatureFlagBundle\Storage\StorageInterface;
-use TwentytwoLabs\FeatureFlagBundle\Manager\DefaultFeatureManager;
 
 class TwentytwoLabsFeatureFlagExtension extends Extension
 {

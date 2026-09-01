@@ -13,6 +13,7 @@ abstract class AbstractStorageFactory implements StorageFactoryInterface
      * @param array<int|string, mixed> $options
      *
      * @return array<int|string, mixed>
+     *
      * @throws ConfigurationException
      */
     protected function validate(string $storageName, array $options): array
